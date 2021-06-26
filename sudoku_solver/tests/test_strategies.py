@@ -1,5 +1,5 @@
 from sudoku_solver.structures import Board
-from sudoku_solver.strategies import attempt_certain_fill, certain_fills
+from sudoku_solver.strategies import attempt_certain_fill, certain_fills, guess_fills
 from .boards import board_values_by_difficulty
 
 
@@ -31,3 +31,11 @@ def test_certain_fills():
         board = Board(board_values_by_difficulty[difficulty]['problem'])
         certain_fills(board)
         assert not board.is_complete()
+
+
+def test_guess_fills():
+    for difficulty in ['hard1', 'expert1']:
+        board = Board(board_values_by_difficulty[difficulty]['problem'])
+        guess_fills(board)
+
+        assert board.rows == board_values_by_difficulty[difficulty]['solution'], difficulty
