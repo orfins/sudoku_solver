@@ -9,7 +9,7 @@ def test_boards_properties_are_built_correctly():
             for col_i in range(len(values)):
                 assert board.rows[row_i][col_i] == values[row_i][col_i]
                 assert board.cols[col_i][row_i] == values[row_i][col_i]
-                assert board.at(row_i, col_i).value == values[row_i][col_i].value
+                assert board.at(row_i, col_i) == values[row_i][col_i]
 
 
 def test_cells_retrieve_correct_rows():
@@ -61,7 +61,7 @@ def test_cells_indexes_match_their_location():
         board = Board(values)
 
         for cell in board.cells:
-            assert board.at(*cell.indexes).value == cell.value
+            assert board.at(*cell.indexes) is cell
 
 
 def test_cells_is_empty():
@@ -134,5 +134,5 @@ def test_board_copy_is_deep():
         assert board is not copied
         for row_i in range(len(values)):
             for col_i in range(len(values)):
-                assert board.at(row_i, col_i).value == copied.at(row_i, col_i).value
+                assert board.at(row_i, col_i) == copied.at(row_i, col_i)
                 assert board.at(row_i, col_i) is not copied.at(row_i, col_i)

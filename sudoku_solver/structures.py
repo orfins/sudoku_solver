@@ -62,7 +62,10 @@ class Cell:
 
         return self.__square
 
-    def __eq__(self, other: Union[int, str]) -> bool:
+    def __eq__(self, other: Union[int, str, Cell]) -> bool:
+        if type(other) is Cell:
+            other = other.value
+
         return self.__value == str(other)
 
     def __repr__(self) -> str:
