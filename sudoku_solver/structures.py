@@ -1,6 +1,7 @@
+from __future__ import annotations
 from itertools import chain
 from math import sqrt
-from typing import Union
+from typing import Union, Tuple, cast
 
 e = '_'
 
@@ -17,7 +18,7 @@ class Cell:
         self.__square = None
 
     @property
-    def value(self):
+    def value(self) -> str:
         return self.__value
 
     @value.setter
@@ -30,19 +31,19 @@ class Cell:
                 cell.possible_values.remove(v)
 
     @property
-    def row(self):
+    def row(self) -> Tuple[Cell]:
         return self.__board.rows[self.__row_i]
 
     @property
-    def col(self):
+    def col(self) -> Tuple[Cell]:
         return self.__board.cols[self.__col_i]
 
     @property
-    def indexes(self):
+    def indexes(self) -> Tuple[int, int]:
         return self.__row_i, self.__col_i
 
     @property
-    def square(self):
+    def square(self) -> Tuple[Cell]:
         if not self.__square:
             square_size = int(sqrt(len(self.row)))
 
@@ -55,25 +56,25 @@ class Cell:
             s = []
             for r in range(first_row, last_row):
                 for c in range(first_col, last_col):
-                    s.append(self.__board.rows[r][c])
+                    s.append(cast(Cell, self.__board.rows[r][c]))
 
             self.__square = tuple(s)
 
         return self.__square
 
-    def __eq__(self, other: Union[int, str]):
+    def __eq__(self, other: Union[int, str]) -> bool:
         return self.__value == str(other)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return str(self.value)
 
-    def is_empty(self):
+    def is_empty(self) -> bool:
         return self.value == e
 
-    def can_fill(self, value):
+    def can_fill(self, value: int) -> bool:
         return value in self.possible_values
 
-    def update_possible_values(self):
+    def update_possible_values(self) -> None:
         self.possible_values = []
 
         if self.is_empty():
@@ -92,7 +93,7 @@ class Board:
             for row_index in range(board_size))
 
         self.__cols = tuple(
-            tuple(row[col] for row in self.rows) for col in range(len(self.__board))
+            tuple(cast(Cell, row[col]) for row in self.rows) for col in range(len(self.__board))
         )
         self.__cells = tuple(cell for row in self.rows for cell in row)
 
@@ -100,38 +101,38 @@ class Board:
             cell.update_possible_values()
 
     @property
-    def rows(self):
+    def rows(self) -> Tuple[Tuple[Cell]]:
         return self.__board
 
     @property
-    def cols(self):
+    def cols(self) -> Tuple[Tuple[Cell]]:
         return self.__cols
 
     @property
-    def cells(self):
+    def cells(self) -> Tuple[Cell]:
         return self.__cells
 
     @property
-    def digits(self):
+    def digits(self) -> range:
         return range(1, 10)
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return '\n'.join(
             ''.join(str(cell) for cell in row) for row in self.rows
         )
 
-    def at(self, row, col):
+    def at(self, row: int, col: int) -> Cell:
         return self.rows[row][col]
 
-    def copy(self):
+    def copy(self) -> Board:
         values = [[cell.value for cell in row] for row in self.rows]
 
         copied = Board(values)
 
         return copied
 
-    def is_solvable(self):
+    def is_solvable(self) -> bool:
         return all((not cell.is_empty()) or len(cell.possible_values) > 0 for cell in self.cells)
 
-    def is_complete(self):
+    def is_complete(self) -> bool:
         return all(not cell.is_empty() for cell in self.cells)
