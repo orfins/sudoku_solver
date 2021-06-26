@@ -3,7 +3,8 @@ from .boards import board_values_by_difficulty
 
 
 def test_boards_properties_are_built_correctly():
-    for values in board_values_by_difficulty.values():
+    for difficulty in board_values_by_difficulty:
+        values = board_values_by_difficulty[difficulty]['problem']
         board = Board(values)
         for row_i in range(len(values)):
             for col_i in range(len(values)):
@@ -13,7 +14,8 @@ def test_boards_properties_are_built_correctly():
 
 
 def test_cells_retrieve_correct_rows():
-    for values in board_values_by_difficulty.values():
+    for difficulty in board_values_by_difficulty:
+        values = board_values_by_difficulty[difficulty]['problem']
         board = Board(values)
 
         for row in board.rows:
@@ -22,7 +24,8 @@ def test_cells_retrieve_correct_rows():
 
 
 def test_cells_retrieve_correct_cols():
-    for values in board_values_by_difficulty.values():
+    for difficulty in board_values_by_difficulty:
+        values = board_values_by_difficulty[difficulty]['problem']
         board = Board(values)
 
         for col in board.cols:
@@ -31,7 +34,7 @@ def test_cells_retrieve_correct_cols():
 
 
 def test_cells_retrieve_correct_square():
-    board = Board(board_values_by_difficulty['easy1'])
+    board = Board(board_values_by_difficulty['easy1']['problem'])
 
     square = board.at(3, 5).square
     assert len(square) == 9
@@ -57,7 +60,8 @@ def test_cells_retrieve_correct_square():
 
 
 def test_cells_indexes_match_their_location():
-    for values in board_values_by_difficulty.values():
+    for difficulty in board_values_by_difficulty:
+        values = board_values_by_difficulty[difficulty]['problem']
         board = Board(values)
 
         for cell in board.cells:
@@ -65,7 +69,8 @@ def test_cells_indexes_match_their_location():
 
 
 def test_cells_is_empty():
-    for values in board_values_by_difficulty.values():
+    for difficulty in board_values_by_difficulty:
+        values = board_values_by_difficulty[difficulty]['problem']
         board = Board(values)
 
         for cell in board.cells:
@@ -73,7 +78,8 @@ def test_cells_is_empty():
 
 
 def test_cells_can_fill():
-    for values in board_values_by_difficulty.values():
+    for difficulty in board_values_by_difficulty:
+        values = board_values_by_difficulty[difficulty]['problem']
         board = Board(values)
 
         for cell in board.cells:
@@ -88,7 +94,7 @@ def test_cells_can_fill():
 
 
 def test_cells_update_possible_values():
-    board = Board(board_values_by_difficulty['easy1'])
+    board = Board(board_values_by_difficulty['easy1']['problem'])
 
     board.at(0, 1).update_possible_values()
     assert board.at(0, 1).possible_values == []
@@ -107,7 +113,7 @@ def test_cells_update_possible_values():
 
 
 def test_boards_update_possible_values():
-    board = Board(board_values_by_difficulty['easy1'])
+    board = Board(board_values_by_difficulty['easy1']['problem'])
 
     assert board.at(0, 1).possible_values == []
     assert board.at(0, 0).possible_values == [5]
@@ -115,7 +121,7 @@ def test_boards_update_possible_values():
 
 
 def test_cells_update_possible_values_when_assigned():
-    board = Board(board_values_by_difficulty['expert1'])
+    board = Board(board_values_by_difficulty['expert1']['problem'])
 
     assert board.at(0, 0).possible_values == [3, 6, 8]
     assert board.at(0, 8).possible_values == [1, 3]
@@ -127,7 +133,8 @@ def test_cells_update_possible_values_when_assigned():
 
 
 def test_board_copy_is_deep():
-    for values in board_values_by_difficulty.values():
+    for difficulty in board_values_by_difficulty:
+        values = board_values_by_difficulty[difficulty]['problem']
         board = Board(values)
         copied = board.copy()
 
