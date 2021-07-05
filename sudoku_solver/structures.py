@@ -3,7 +3,7 @@ from itertools import chain
 from math import sqrt
 from typing import Union, Tuple, cast
 
-e = '_'
+e = '0'
 
 
 class Cell:
