@@ -21,8 +21,8 @@ def main():
     model = load_model('/Users/or.f/PycharmProjects/sudoku_solver/output/digit_classifier.h5')
 
     import cv2
-    # p = '/Users/or.f/Desktop/b.png'
-    p = '/Users/or.f/Desktop/a.jpg'
+    p = '/Users/or.f/Desktop/b.png'
+    # p = '/Users/or.f/Desktop/a.jpg'
     src = cv2.imread(p)
     from sudokurecognition.sudoku.puzzle import find_puzzle, extract_digit
 
@@ -75,6 +75,7 @@ def main():
 
     # solve
     b = Board(board)
+    print(b)
     guess_fills(b)
 
     # loop over the cell locations and board
